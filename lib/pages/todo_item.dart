@@ -35,6 +35,7 @@ class ToDoItem extends StatelessWidget {
             ),
           ],
         ),
+        //Add container with key for correct reorder
         child: Container(
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
@@ -46,6 +47,8 @@ class ToDoItem extends StatelessWidget {
           key: ValueKey(todo.id),
           child: ListTile(
             onTap: () async {
+              //For change and save text create newText and
+              //invoke onTodoChanged
               final newText = await _displayDialog(context, todo.name);
               onTodoChanged(todo.copyWith(name: newText));
             },
@@ -57,12 +60,6 @@ class ToDoItem extends StatelessWidget {
             title: Text(todo.name, style: _getTextStyle(todo.completed)),
             focusColor: Theme.of(context).cardColor,
             hoverColor: Theme.of(context).cardColor,
-            // trailing: IconButton(
-            //   icon: const Icon(Icons.delete),
-            //   onPressed: () {
-            //     deleteTodo(todo);
-            //   },
-            // ),
           ),
         ),
       ),

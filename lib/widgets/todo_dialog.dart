@@ -17,8 +17,6 @@ class TodoDialog extends StatefulWidget {
 
 class _TodoDialogState extends State<TodoDialog> {
   late final TextEditingController _textFieldController;
-  String get title => widget.title;
-  String get buttonName => widget.buttonName;
 
   @override
   void initState() {
@@ -37,7 +35,7 @@ class _TodoDialogState extends State<TodoDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      title: Text(title),
+      title: Text(widget.title),
       content: TextField(
         controller: _textFieldController,
         maxLines: null,
@@ -63,6 +61,7 @@ class _TodoDialogState extends State<TodoDialog> {
             ),
           ),
           onPressed: () {
+            //Close alert dialog
             Navigator.of(context).pop();
           },
           child: Text(
@@ -77,9 +76,11 @@ class _TodoDialogState extends State<TodoDialog> {
             ),
           ),
           onPressed: () {
+            //Close alert dialog and send text from textField to 
+            //the text on _displayDialog() and put it in _addTodoItem()
             Navigator.of(context).pop(_textFieldController.text);
           },
-          child: Text(buttonName),
+          child: Text(widget.buttonName),
         ),
       ],
     );

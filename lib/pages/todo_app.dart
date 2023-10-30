@@ -8,11 +8,14 @@ class ToDoApp extends StatelessWidget {
     required this.prefs,
     super.key,
   });
+
+  // Add prefs field
   final SharedPreferences prefs;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //Remove red debug banner
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: appTheme(),

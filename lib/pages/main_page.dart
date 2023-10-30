@@ -11,6 +11,7 @@ class MainPage extends StatefulWidget {
     super.key,
   });
 
+  // Add prefs field
   final SharedPreferences prefs;
 
   @override
@@ -18,14 +19,17 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  //Create todos list
   final List<ToDo> _todos = [];
 
   @override
   void initState() {
+    //Show saved todos
     _init();
     super.initState();
   }
 
+  //Create method for showing saved todos
   void _init() {
     final keys = widget.prefs.getKeys();
     for (final key in keys) {
@@ -45,12 +49,14 @@ class _MainPageState extends State<MainPage> {
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
+            // Check if there are todos in list and show delete button if true
             child: _todos.isEmpty
                 ? const SizedBox()
                 : IconButton(
                     onPressed: () {
                       setState(
                         () {
+                          //Delete all todos in list (and memory)
                           for (final todo in _todos) {
                             widget.prefs.remove(todo.id);
                           }
@@ -77,17 +83,25 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  //Todos creating method
   void _addTodoItem(String name) {
+    // Create ToDo instance from display dialog (name = text)
     final todo = ToDo(name: name, completed: false);
+
+    //Save this todos in prefs
     widget.prefs.setString(todo.id, todo.toJSON());
+
+    //Add this todos in our todos list
     setState(() {
       _todos.add(todo);
     });
   }
 
+  //Show dialog for adding todos
   Future<void> _displayDialog() async {
     final text = await showDialog<String?>(
       context: context,
+      //When we tap out of dialog it doesn't close
       barrierDismissible: false,
       builder: (BuildContext context) {
         return const TodoDialog(
@@ -97,6 +111,8 @@ class _MainPageState extends State<MainPage> {
       },
     );
     if (text != null) {
+      //If we have text in dialog textfiel or empty (not null) textfield
+      //we add this text to todos creating method
       _addTodoItem(text);
     }
   }

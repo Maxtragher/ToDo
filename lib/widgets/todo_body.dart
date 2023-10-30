@@ -11,6 +11,7 @@ class TodoListBody extends StatefulWidget {
     super.key,
   });
 
+  //For sending todos list to main_page we create todos list here
   final List<ToDo> todos;
   final SharedPreferences prefs;
   final void Function() displayDialog;
@@ -22,9 +23,11 @@ class TodoListBody extends StatefulWidget {
 class _TodoListBodyState extends State<TodoListBody> {
   @override
   Widget build(BuildContext context) {
+    //If todos list is empty we show textButton for adding todos
     if (widget.todos.isEmpty) {
       return Center(
         child: TextButton(
+          //Invoke display dialog
           onPressed: widget.displayDialog,
           child: Text(
             'Create a ToDo',
@@ -36,10 +39,12 @@ class _TodoListBodyState extends State<TodoListBody> {
         ),
       );
     }
+    //Create list with todos items wich we can reorder
     return ReorderableListView.builder(
       onReorder: _reorderTodo,
       itemCount: widget.todos.length,
       padding: const EdgeInsets.symmetric(vertical: 8),
+      //Add todos items in a showing list
       itemBuilder: (context, index) => ToDoItem(
         todo: widget.todos[index],
         onTodoChanged: _handleTodoChange,
@@ -48,6 +53,7 @@ class _TodoListBodyState extends State<TodoListBody> {
     );
   }
 
+  //Create onReorder method
   void _reorderTodo(int oldIndex, int newIndex) {
     setState(() {
       final index = oldIndex < newIndex ? newIndex - 1 : newIndex;
@@ -58,7 +64,9 @@ class _TodoListBodyState extends State<TodoListBody> {
     });
   }
 
+  //Invoke if we want to change todos text or completing
   void _handleTodoChange(ToDo todo) {
+    //Saving changed todos in prefs
     widget.prefs.setString(todo.id, todo.toJSON());
     setState(() {
       final index = widget.todos.indexWhere((element) => element.id == todo.id);
@@ -67,6 +75,7 @@ class _TodoListBodyState extends State<TodoListBody> {
   }
 
   void _deleteTodo(ToDo todo) {
+    //Remove todos item in prefs memory
     widget.prefs.remove(todo.id);
     setState(() {
       widget.todos.removeWhere((element) => element.id == todo.id);
