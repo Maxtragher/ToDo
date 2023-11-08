@@ -75,10 +75,29 @@ class _TodoListBodyState extends State<TodoListBody> {
   }
 
   void _deleteTodo(ToDo todo) {
+    final todoIndex = widget.todos.indexOf(todo);
     //Remove todos item in prefs memory
     widget.prefs.remove(todo.id);
     setState(() {
       widget.todos.removeWhere((element) => element.id == todo.id);
+
+      //Add "Undo" for removed todos
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Expense «${todo.name}» removed'),
+          duration: const Duration(seconds: 3),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              setState(() {
+                widget.todos.insert(todoIndex, todo);
+                widget.prefs.setString(todo.id, todo.toJSON());
+              });
+            },
+          ),
+        ),
+      );
     });
   }
 }
