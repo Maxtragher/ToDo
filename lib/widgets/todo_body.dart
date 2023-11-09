@@ -39,16 +39,23 @@ class _TodoListBodyState extends State<TodoListBody> {
         ),
       );
     }
-    //Create list with todos items wich we can reorder
-    return ReorderableListView.builder(
-      onReorder: _reorderTodo,
-      itemCount: widget.todos.length,
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      //Add todos items in a showing list
-      itemBuilder: (context, index) => ToDoItem(
-        todo: widget.todos[index],
-        onTodoChanged: _handleTodoChange,
-        deleteTodo: _deleteTodo,
+    //With Theme we fixed incorrect behavior on reorderabing
+    return Theme(
+      data: Theme.of(context).copyWith(
+        canvasColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+      ),
+      //Create list with todos items wich we can reorder
+      child: ReorderableListView.builder(
+        onReorder: _reorderTodo,
+        itemCount: widget.todos.length,
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        //Add todos items in a showing list
+        itemBuilder: (context, index) => ToDoItem(
+          todo: widget.todos[index],
+          onTodoChanged: _handleTodoChange,
+          deleteTodo: _deleteTodo,
+        ),
       ),
     );
   }
@@ -90,9 +97,9 @@ class _TodoListBodyState extends State<TodoListBody> {
           action: SnackBarAction(
             label: 'Undo',
             onPressed: () {
+              widget.prefs.setString(todo.id, todo.toJSON());
               setState(() {
                 widget.todos.insert(todoIndex, todo);
-                widget.prefs.setString(todo.id, todo.toJSON());
               });
             },
           ),
