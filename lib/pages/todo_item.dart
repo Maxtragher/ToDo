@@ -57,7 +57,10 @@ class ToDoItem extends StatelessWidget {
               onChanged: (value) =>
                   onTodoChanged(todo.copyWith(completed: !todo.completed)),
             ),
-            title: Text(todo.name, style: _getTextStyle(todo.completed)),
+            title: Text(
+              todo.name,
+              style: _getTextStyle(todo.completed),
+            ),
             focusColor: Theme.of(context).cardColor,
             hoverColor: Theme.of(context).cardColor,
           ),
@@ -69,7 +72,7 @@ class ToDoItem extends StatelessWidget {
   TextStyle? _getTextStyle(bool completed) {
     if (!completed) return null;
     return const TextStyle(
-      color: Colors.black,
+      color: Colors.black45,
       decoration: TextDecoration.lineThrough,
     );
   }
