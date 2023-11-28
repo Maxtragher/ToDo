@@ -60,6 +60,15 @@ class _TodoListBodyState extends State<TodoListBody> {
     );
   }
 
+  //Saving reordering indexes
+  void _newIndexes() {
+    for (var i = 0; i < widget.todos.length; i++) {
+      widget.prefs.remove(widget.todos[i].id);
+      widget.todos[i].index = i;
+      widget.prefs.setString(widget.todos[i].id, widget.todos[i].toJSON());
+    }
+  }
+
   //Create onReorder method
   void _reorderTodo(int oldIndex, int newIndex) {
     setState(() {
@@ -68,6 +77,8 @@ class _TodoListBodyState extends State<TodoListBody> {
       final todo = widget.todos.removeAt(oldIndex);
 
       widget.todos.insert(index, todo);
+
+      _newIndexes();
     });
   }
 

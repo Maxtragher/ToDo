@@ -35,8 +35,10 @@ class _MainPageState extends State<MainPage> {
     for (final key in keys) {
       final json = widget.prefs.getString(key);
       final todo = ToDo.fromJSON(json!, key);
-      _todos.add(todo);
+      _todos..add(todo)
+      ..sort((a, b) => a.index.compareTo(b.index));
     }
+    print(_todos);
   }
 
   @override
@@ -86,7 +88,7 @@ class _MainPageState extends State<MainPage> {
   //Todos creating method
   void _addTodoItem(String name) {
     // Create ToDo instance from display dialog (name = text)
-    final todo = ToDo(name: name, completed: false);
+    final todo = ToDo(name: name, completed: false, index: _todos.length);
 
     //Save this todos in prefs
     widget.prefs.setString(todo.id, todo.toJSON());
