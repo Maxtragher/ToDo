@@ -25,11 +25,12 @@ class ToDo extends Equatable {
   }
   static const _uuid = Uuid();
 
-//Todos have their name, completed value, id and index(for saving reordering instance)
+//Todos have their name, completed value, id and
+//index(for saving reordering instance)
   final String id;
   final String name;
   final bool completed;
-  int index;
+  final int index;
 
   //Override Equatable method
   @override
@@ -39,11 +40,16 @@ class ToDo extends Equatable {
   bool get stringify => true;
 
   //Method for returning new todos when we change it
-  ToDo copyWith({String? name, bool? completed, DateTime? date}) => ToDo(
+  ToDo copyWith({
+    String? name,
+    bool? completed,
+    int? index,
+  }) =>
+      ToDo(
         name: name ?? this.name,
         completed: completed ?? this.completed,
         id: id,
-        index: index,
+        index: index ?? this.index,
       );
 
   //Method for code todos in JSON for saving in prefs

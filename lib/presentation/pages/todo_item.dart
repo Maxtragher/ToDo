@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_list/entity/todo.dart';
-import 'package:todo_list/widgets/todo_dialog.dart';
+import 'package:todo_list/presentation/widgets/todo_dialog.dart';
 
 class ToDoItem extends StatelessWidget {
   ToDoItem({
     required this.todo,
     required this.onTodoChanged,
     required this.deleteTodo,
+    required this.undoTodo,
   }) : super(key: ObjectKey(todo));
   final ToDo todo;
   final void Function(ToDo todo) onTodoChanged;
   final void Function(ToDo todo) deleteTodo;
+  final void Function(ToDo todo, BuildContext context) undoTodo;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class ToDoItem extends StatelessWidget {
             SlidableAction(
               onPressed: (context) {
                 deleteTodo(todo);
+                undoTodo(todo, context);
               },
               icon: Icons.delete,
               backgroundColor: Theme.of(context).primaryColor,

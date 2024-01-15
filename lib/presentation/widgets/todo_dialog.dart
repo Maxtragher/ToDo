@@ -76,11 +76,16 @@ class _TodoDialogState extends State<TodoDialog> {
             ),
           ),
           onPressed: () {
-            //Close alert dialog and send text from textField to 
+            //Close alert dialog and send text from textField to
             //the text on _displayDialog() and put it in _addTodoItem()
             Navigator.of(context).pop(_textFieldController.text);
           },
-          child: Text(widget.buttonName),
+          child: Text(
+            widget.buttonName,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onInverseSurface,
+            ),
+          ),
         ),
       ],
     );
